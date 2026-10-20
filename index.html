@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guía gratis · IA para Arquitectos</title>
+<meta name="description" content="30 prompts de IA para arquitectos y plantilla de informe semanal de obra. Gratis, por @iaparaarquitectos.">
+<meta property="og:title" content="30 prompts de IA para arquitectos">
+<meta property="og:description" content="Guía gratis de @iaparaarquitectos: prompts para proyecto, render, documentación y dirección de obra.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: columna de lectura sobre una grilla de plano; cada prompt es una ficha con su botón de copiar */
+:root {
+--bg: #F3F5FA; --surface: #FFFFFF; --ink: #0B1530; --muted: #56607A; --line: #DCE2EE;
+--accent: #14897E; --accent-ink: #FFFFFF; --violet: #5B4BD6; --grid: rgba(11,21,48,.05);
+--display: "Inter", system-ui, sans-serif; --body: "Inter", system-ui, sans-serif; --mono: "JetBrains Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+--bg: #0B1530; --surface: #13224A; --ink: #F4F1EA; --muted: #A0ACC8; --line: #22325E;
+--accent: #2EC4B6; --accent-ink: #0B1530; --violet: #8B7CF6; --grid: rgba(255,255,255,.035); color-scheme: dark } }
+:root[data-theme="dark"] {
+--bg: #0B1530; --surface: #13224A; --ink: #F4F1EA; --muted: #A0ACC8; --line: #22325E;
+--accent: #2EC4B6; --accent-ink: #0B1530; --violet: #8B7CF6; --grid: rgba(255,255,255,.035); color-scheme: dark }
+* { box-sizing: border-box }
+html { padding: 0 } body { background: var(--bg); color: var(--ink); font: 400 16px/1.6 var(--body);
+background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+background-size: 32px 32px;
+padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 40px 64px }
+.wrap { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 48px }
+.eyebrow { font: 600 12px/1 var(--body); letter-spacing: .14em; text-transform: uppercase; color: var(--accent) }
+.hero { display: flex; flex-direction: column; gap: 14px }
+.hero h1 { font: 800 clamp(34px, 6vw, 56px)/1.05 var(--display); letter-spacing: -.02em; margin: 0; text-wrap: balance }
+.hero p { color: var(--muted); max-width: 60ch; margin: 0; font-size: 18px }
+.tabs { display: flex; gap: 8px; flex-wrap: wrap }
+.tabs a { font: 600 14px var(--body); padding: 10px 16px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink); text-decoration: none; background: var(--surface) }
+.tabs a.main { background: var(--accent); color: var(--accent-ink); border-color: var(--accent) }
+.howto { border-left: 3px solid var(--violet); padding: 4px 0 4px 18px; display: flex; flex-direction: column; gap: 6px; color: var(--muted) }
+.howto strong { color: var(--ink) }
+.toc { display: flex; gap: 6px 14px; flex-wrap: wrap; font-size: 14px }
+.toc a { color: var(--muted) }
+h2 { font: 800 26px/1.2 var(--display); margin: 0 0 18px; letter-spacing: -.01em }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 14px }
+.prompt { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 10px; min-width: 0 }
+.prompt header { display: flex; gap: 10px; align-items: baseline }
+.num { font: 500 13px var(--mono); color: var(--violet); font-variant-numeric: tabular-nums }
+.prompt h3, .step h3 { font: 600 17px/1.3 var(--display); margin: 0 }
+.ptext { margin: 0; font: 400 14.5px/1.6 var(--mono); color: var(--ink); white-space: pre-wrap; overflow-wrap: anywhere; flex: 1 }
+.copy { align-self: flex-start; font: 600 13px var(--body); padding: 8px 14px; border-radius: 8px; border: 1px solid var(--accent); background: transparent; color: var(--accent); cursor: pointer }
+.copy:hover { background: var(--accent); color: var(--accent-ink) }
+.copy:focus-visible, .tabs a:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px }
+.copy.done { background: var(--accent); color: var(--accent-ink) }
+.obra { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 22px }
+.step { display: flex; flex-direction: column; gap: 10px }
+.step ul { margin: 0; padding-left: 20px; color: var(--muted) }
+.tmpl { background: var(--bg); border-radius: 10px; padding: 14px }
+footer { border-top: 1px solid var(--line); padding-top: 20px; color: var(--muted); font-size: 15px }
+footer strong { color: var(--ink) } footer a { color: var(--accent) }
+@media (prefers-reduced-motion: no-preference) { .copy { transition: background .15s, color .15s } }
+</style>
+</head>
+<body>
+<div class="wrap">
+<section class="hero">
+<span class="eyebrow">IA para Arquitectos · Guía gratuita</span>
+<h1>30 prompts de IA para arquitectos + plantilla de informe de obra</h1>
+<p>Prompts listos para copiar en ChatGPT, Claude o Gemini. Completá los [corchetes] con datos de tu proyecto.</p>
+<nav class="tabs"><a class="main" href="#prompts">30 prompts</a><a href="#obra">Informe semanal de obra</a><a href="https://www.instagram.com/iaparaarquitectos/" target="_blank" rel="noopener">Seguir en Instagram</a></nav>
+</section>
+<div class="howto">
+<strong>Cómo usarlos</strong>
+<span>Reemplazá lo que está entre [corchetes], pegá tus datos debajo del prompt y revisá siempre el resultado: la IA redacta y ordena, la decisión y la firma son tuyas. No compartas datos personales de clientes.</span>
+</div>
+<section id="prompts" style="display:flex;flex-direction:column;gap:40px">
+<nav class="toc"><a href="#brief-y-programa">Brief y programa</a><a href="#diseno-y-presentacion">Diseño y presentación</a><a href="#render-e-imagen">Render e imagen</a><a href="#documentacion-tecnica">Documentación técnica</a><a href="#direccion-de-obra">Dirección de obra</a><a href="#cliente-y-estudio">Cliente y estudio</a></nav>
+<section class="block" id="brief-y-programa"><h2>Brief y programa</h2><div class="grid"><article class="prompt">
+<header><span class="num">01</span><h3>Ordenar el brief de una vivienda</h3></header>
+<p class="ptext" id="p1">Actuá como asistente de un estudio de arquitectura. Con estas notas de la primera reunión [pegá notas], armá un brief con: datos del grupo familiar, necesidades, preferencias, restricciones (terreno, presupuesto, plazos) y preguntas pendientes. No inventes datos: marcá PENDIENTE lo que falte.</p>
+<button type="button" class="copy" data-target="p1">Copiar prompt</button>
+</article><article class="prompt">
+<header><span class="num">02</span><h3>Detectar requisitos contradictorios</h3></header>
+<p class="ptext" id="p2">Revisá este programa de necesidades [pegá programa] y marcá requisitos que puedan entrar en conflicto entre sí. Armá una tabla: requisito, posible conflicto, pregunta para el cliente. No decidas por el cliente.</p>
+<button type="button" class="copy" data-target="p2">Copiar prompt</button>
+</article><article class="prompt">
+<header><span class="num">03</span><h3>Programa de superficies preliminar</h3></header>
+<p class="ptext" id="p3">Con este listado de locales y usos [pegá listado], armá una tabla de programa con columnas: local, uso, cantidad, observaciones. Dejá la columna de superficie en blanco para completarla yo.</p>
+<button type="button" class="copy" data-target="p3">Copiar prompt</button>
+</article><article class="prompt">
+<header><span class="num">04</span><h3>Preguntas para la primera reunión</h3></header>
+<p class="ptext" id="p4">Soy arquitecta y tengo una primera reunión con un cliente que quiere [tipo de proyecto]. Dame 15 preguntas ordenadas por tema para entender necesidades, presupuesto, plazos y expectativas.</p>
+<button type="button" class="copy" data-target="p4">Copiar prompt</button>
+</article><article class="prompt">
+<header><span class="num">05</span><h3>Resumen del terreno</h3></header>
+<p class="ptext" id="p5">Con estos datos del terreno [medidas, orientación, linderos, normativa que ya verifiqué], redactá un resumen claro de condicionantes para presentar al equipo. No agregues normativa que no te pasé.</p>
+<button type="button" class="copy" data-target="p5">Copiar prompt</button>
+</article></div></section><section class="block" id="diseno-y-presentacion"><h2>Diseño y presentación</h2><div class="grid"><article class="prompt">
+<header><span class="num">06</span><h3>Explicar dos alternativas al cliente</h3></header>
+<p class="ptext" id="p6">Explicá las diferencias entre la alternativa A [descripción] y la B [descripción] para un cliente sin formación técnica. Armá una tabla: diferencia, ventaja posible, pregunta pendiente. No afirmes costos ni desempeño que no te di.</p>
+<button type="button" class="copy" data-target="p6">Copiar prompt</button>
+</article><article class="prompt">
+<header><span class="num">07</span><h3>Memoria descriptiva</h3></header>
+<p class="ptext" id="p7">Redactá el borrador de una memoria descriptiva para [tipo de proyecto] usando solo estos datos: [programa, implantación, materiales, decisiones]. Tono técnico y claro, máximo 300 palabras. No inventes superficies ni normativa.</p>
+<button type="button" class="copy" data-target="p7">Copiar prompt</button>
+</article><article class="prompt">
+<header><span class="num">08</span><h3>Texto para lámina de concurso</h3></header>
+<p class="ptext" id="p8">Con estos conceptos del proyecto [pegá ideas], escribí 3 versiones de un texto de 80 palabras para una lámina de presentación: una técnica, una poética y una directa.</p>
+<button type="button" class="copy" data-target="p8">Copiar prompt</button>
+</article><article class="prompt">
+<header><span class="num">09</span><h3>Guion de presentación</h3></header>
+<p class="ptext" id="p9">Armá un guion de 5 minutos para presentar este anteproyecto [pegá datos] a un cliente: apertura, idea principal, recorrido del proyecto, decisiones clave y próximos pasos.</p>
+<button type="button" class="copy" data-target="p9">Copiar prompt</button>
+</article><article class="prompt">
+<header><span class="num">10</span><h3>Nombres para el proyecto</h3></header>
+<p class="ptext" id="p10">Proponé 10 nombres para un proyecto de [tipo] ubicado en [lugar], con concepto [concepto]. Cortos, fáciles de recordar y sin parecerse a marcas conocidas.</p>
+<button type="button" class="copy" data-target="p10">Copiar prompt</button>
+</article></div></section><section class="block" id="render-e-imagen"><h2>Render e imagen</h2><div class="grid"><article class="prompt">
+<header><span class="num">11</span><h3>Prompt para render exterior</h3></header>
+<p class="ptext" id="p11">Escribí un prompt para un generador de imágenes que muestre [tipo de edificio] con [materiales] en [entorno], luz de [momento del día], vista [ángulo]. Estilo fotográfico realista, sin personas en primer plano.</p>
+<button type="button" class="copy" data-target="p11">Copiar prompt</button>
+</article><article class="prompt">
+<header><span class="num">12</span><h3>Variaciones de material</h3></header>
+<p class="ptext" id="p12">A partir de esta descripción de fachada [descripción], escribí 3 prompts que cambien solo el material principal: [opción 1], [opción 2], [opción 3]. Todo lo demás igual.</p>
+<button type="button" class="copy" data-target="p12">Copiar prompt</button>
+</article><article class="prompt">
+<header><span class="num">13</span><h3>Revisar una imagen generada</h3></header>
+<p class="ptext" id="p13">Te describo un render generado con IA [descripción o adjuntá la imagen]. Hacé una lista de lo que habría que verificar contra el plano: aberturas, proporciones, materiales, escala y elementos inventados.</p>
+<button type="button" class="copy" data-target="p13">Copiar prompt</button>
+</article><article class="prompt">
+<header><span class="num">14</span><h3>Moodboard en palabras</h3></header>
+<p class="ptext" id="p14">Describí un moodboard para un interior [uso] con estilo [estilo]: paleta de colores, materiales, texturas, iluminación y 5 referencias de tipo de mobiliario.</p>
+<button type="button" class="copy" data-target="p14">Copiar prompt</button>
+</article><article class="prompt">
+<header><span class="num">15</span><h3>Nomenclatura de imágenes</h3></header>
+<p class="ptext" id="p15">Proponé un sistema de nombres de archivo para las imágenes de un proyecto que incluya proyecto, revisión, vista y fecha. Dame 5 ejemplos.</p>
+<button type="button" class="copy" data-target="p15">Copiar prompt</button>
+</article></div></section><section class="block" id="documentacion-tecnica"><h2>Documentación técnica</h2><div class="grid"><article class="prompt">
+<header><span class="num">16</span><h3>Comparar materiales</h3></header>
+<p class="ptext" id="p16">Armá una tabla comparando [material A] y [material B] para [uso]. Columnas: mantenimiento, durabilidad, plazo de provisión, costo relativo y dato faltante. Usá solo la información de estas fichas: [pegá los datos].</p>
+<button type="button" class="copy" data-target="p16">Copiar prompt</button>
+</article><article class="prompt">
+<header><span class="num">17</span><h3>Especificación técnica</h3></header>
+<p class="ptext" id="p17">Redactá la especificación técnica del rubro [rubro] con estos datos [materiales, marcas, procedimientos]. Estructura: alcance, materiales, ejecución, controles y tolerancias. Marcá PENDIENTE lo que falte.</p>
+<button type="button" class="copy" data-target="p17">Copiar prompt</button>
+</article><article class="prompt">
+<header><span class="num">18</span><h3>Listado de verificación de planos</h3></header>
+<p class="ptext" id="p18">Armá un checklist para revisar un juego de planos de [tipo de obra] antes de enviarlo: plantas, cortes, vistas, carpinterías, instalaciones y rótulos.</p>
+<button type="button" class="copy" data-target="p18">Copiar prompt</button>
+</article><article class="prompt">
+<header><span class="num">19</span><h3>Pedido de cotización</h3></header>
+<p class="ptext" id="p19">Escribí un pedido de cotización para [rubro] con alcance [descripción], cantidades [cantidades] y plazo [plazo]. Pedí que detallen materiales, mano de obra, plazo y forma de pago.</p>
+<button type="button" class="copy" data-target="p19">Copiar prompt</button>
+</article><article class="prompt">
+<header><span class="num">20</span><h3>Comparativo de presupuestos</h3></header>
+<p class="ptext" id="p20">Con estas 3 cotizaciones [pegá datos], armá una tabla comparativa por ítem, marcá diferencias de alcance y lo que cada oferente no incluyó. No recomiendes una sin explicar el criterio.</p>
+<button type="button" class="copy" data-target="p20">Copiar prompt</button>
+</article></div></section><section class="block" id="direccion-de-obra"><h2>Dirección de obra</h2><div class="grid"><article class="prompt">
+<header><span class="num">21</span><h3>Informe semanal de obra</h3></header>
+<p class="ptext" id="p21">Con estos datos de la semana [avance por rubro, incidencias, clima, personal], redactá un informe semanal de obra con: resumen, avance, desvíos, riesgos y acciones para la semana próxima.</p>
+<button type="button" class="copy" data-target="p21">Copiar prompt</button>
+</article><article class="prompt">
+<header><span class="num">22</span><h3>Minuta de reunión de obra</h3></header>
+<p class="ptext" id="p22">Ordená estas notas de reunión en una minuta con: temas tratados, decisiones tomadas y pendientes con responsable y fecha. Si un dato no está en las notas, marcalo como PENDIENTE. Notas: [pegá tus notas]</p>
+<button type="button" class="copy" data-target="p22">Copiar prompt</button>
+</article><article class="prompt">
+<header><span class="num">23</span><h3>Orden de servicio</h3></header>
+<p class="ptext" id="p23">Redactá una orden de servicio para el contratista [nombre] indicando [instrucción], motivo, plazo de cumplimiento y documentación de respaldo. Tono formal.</p>
+<button type="button" class="copy" data-target="p23">Copiar prompt</button>
+</article><article class="prompt">
+<header><span class="num">24</span><h3>Análisis de desvío de plazo</h3></header>
+<p class="ptext" id="p24">Con este avance real [datos] y este plan [datos], identificá los rubros atrasados, el posible impacto en el camino crítico y 3 acciones para recuperar plazo. Marcá los supuestos.</p>
+<button type="button" class="copy" data-target="p24">Copiar prompt</button>
+</article><article class="prompt">
+<header><span class="num">25</span><h3>Checklist de recepción</h3></header>
+<p class="ptext" id="p25">Armá un checklist de recepción provisoria para [tipo de obra], organizado por rubro, con columna para observaciones y responsable.</p>
+<button type="button" class="copy" data-target="p25">Copiar prompt</button>
+</article></div></section><section class="block" id="cliente-y-estudio"><h2>Cliente y estudio</h2><div class="grid"><article class="prompt">
+<header><span class="num">26</span><h3>Mail difícil al cliente</h3></header>
+<p class="ptext" id="p26">Escribí un mail breve y profesional para [cliente] explicando [cambio o demora]. Incluí la causa, el impacto en plazo y costo, y los próximos pasos. Tono firme y cordial, sin excusas.</p>
+<button type="button" class="copy" data-target="p26">Copiar prompt</button>
+</article><article class="prompt">
+<header><span class="num">27</span><h3>Propuesta de honorarios</h3></header>
+<p class="ptext" id="p27">Redactá una propuesta de servicios profesionales para [tipo de proyecto] con etapas [etapas], entregables por etapa y forma de pago [forma]. Dejá los montos en blanco.</p>
+<button type="button" class="copy" data-target="p27">Copiar prompt</button>
+</article><article class="prompt">
+<header><span class="num">28</span><h3>Responder un reclamo</h3></header>
+<p class="ptext" id="p28">Un cliente reclama [reclamo]. Redactá una respuesta que reconozca el problema, explique qué vamos a hacer y en qué plazo, sin admitir responsabilidades que no correspondan.</p>
+<button type="button" class="copy" data-target="p28">Copiar prompt</button>
+</article><article class="prompt">
+<header><span class="num">29</span><h3>Post para redes del estudio</h3></header>
+<p class="ptext" id="p29">Escribí 3 opciones de texto para Instagram presentando este proyecto terminado [datos]. Máximo 80 palabras, con una pregunta al final para generar comentarios.</p>
+<button type="button" class="copy" data-target="p29">Copiar prompt</button>
+</article><article class="prompt">
+<header><span class="num">30</span><h3>Organizar la semana</h3></header>
+<p class="ptext" id="p30">Tengo estas tareas [pegá lista] y estas reuniones [pegá agenda]. Ordenalas por prioridad e impacto y proponé un plan semanal realista con bloques de trabajo.</p>
+<button type="button" class="copy" data-target="p30">Copiar prompt</button>
+</article></div></section>
+</section>
+<section id="obra">
+<h2>Plantilla: informe semanal de obra con IA</h2>
+<div class="obra"><div class="step"><h3>1. Datos que necesitás juntar</h3><ul><li>Avance por rubro en % (real vs. planificado)</li><li>Incidencias, decisiones y cambios de la semana</li><li>Clima y días perdidos</li><li>Personal propio y subcontratos en obra</li><li>Pedidos de materiales y entregas</li><li>Fotos con fecha (para adjuntar vos, no para la IA)</li></ul></div><div class="step"><h3>2. Prompt principal (copiá y completá)</h3><pre class="ptext tmpl" id="o2">Actuá como director de obra. Con estos datos de la semana del [fecha] en la obra [nombre]:
+[pegá los datos crudos]
+Redactá el informe semanal con esta estructura:
+1) Resumen ejecutivo en 3 líneas
+2) Avance por rubro (tabla: rubro, % planificado, % real, desvío)
+3) Desvíos y causas
+4) Riesgos para las próximas 2 semanas
+5) Acciones con responsable y fecha
+6) Pendientes del comitente
+No inventes datos. Si falta algo, escribí PENDIENTE. Tono técnico y claro.</pre><button type="button" class="copy" data-target="o2">Copiar prompt</button></div><div class="step"><h3>3. Versión corta para el comitente</h3><pre class="ptext tmpl" id="o3">Resumí este informe en 5 líneas para el comitente, sin tecnicismos. Incluí: estado general, avance, si hay atraso y qué necesitamos que decida.</pre><button type="button" class="copy" data-target="o3">Copiar prompt</button></div><div class="step"><h3>4. Checklist antes de enviar</h3><ul><li>¿Los % coinciden con tu planilla de avance?</li><li>¿Hay algo que la IA presentó como hecho y es un supuesto?</li><li>¿Cada acción tiene responsable y fecha?</li><li>¿Están adjuntas las fotos de la semana?</li><li>¿El tono es adecuado para quien lo recibe?</li></ul></div><div class="step"><h3>5. Para ahorrar tiempo cada semana</h3><ul><li>Guardá el prompt como plantilla y cambiá solo los datos.</li><li>Pedile a tu equipo que te pase los datos en el mismo formato todos los viernes.</li><li>Si usás WhatsApp en obra, copiá los mensajes clave de la semana como datos crudos.</li></ul></div></div>
+</section>
+<footer><strong><a href="https://www.instagram.com/iaparaarquitectos/" target="_blank" rel="noopener">@iaparaarquitectos</a></strong> · Prompts y herramientas de IA para proyecto, render, BIM y obra. Seguí la cuenta en Instagram para recibir los nuevos.</footer>
+</div>
+<script>
+document.addEventListener("click", async (ev) => {
+const b = ev.target.closest(".copy"); if (!b) return;
+const el = document.getElementById(b.dataset.target);
+const txt = el.innerText;
+try { await navigator.clipboard.writeText(txt); b.textContent = "Copiado"; b.classList.add("done"); }
+catch (e) { const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = "Texto seleccionado: copialo"; }
+setTimeout(() => { b.textContent = "Copiar prompt"; b.classList.remove("done"); }, 2200);
+});
+</script>
+</body>
+</html>
